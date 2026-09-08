@@ -13,8 +13,8 @@ class Stack
 {
 private:
     element *data;
-    int capacity = 1;
-    int top = -1;
+    int capacity;
+    int top;
 
 private:
     void resize()
@@ -32,7 +32,7 @@ private:
     }
 
 public:
-    Stack() : data(new element[capacity]), capacity(1), top(-1) {}
+    Stack() : data(new element[1]), capacity(1), top(-1) {}
     ~Stack()
     {
         delete[] data;
