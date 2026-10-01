@@ -3,7 +3,7 @@ using namespace std;
 
 typedef int element;
 
-class Vector
+class MyVector
 {
 private:
     element *data;
@@ -25,8 +25,8 @@ private:
     }
 
 public:
-    Vector() : data(new element[1]), capacity(1), size(0) {}
-    ~Vector()
+    MyVector() : data(new element[1]), capacity(1), size(0) {}
+    ~MyVector()
     {
         delete[] data;
     }
@@ -51,11 +51,12 @@ public:
             cout << "Vector is empty\n";
         }
         --size;
+        return;
     }
 
     element get_item(int _index)
     {
-        if (_index < 0 || _index > size)
+        if (_index < 0 || _index >= size)
         {
             cout << "Out of Range\n";
         }
@@ -64,7 +65,7 @@ public:
     }
     void set_item(int _index, element _item)
     {
-        if (_index < 0 || _index > size)
+        if (_index < 0 || _index >= size)
         {
             cout << "Out of Range\n";
         }
@@ -84,7 +85,7 @@ public:
         }
         cout << '\n';
     }
-    void print_info(Vector *_vector)
+    void print_info(MyVector *_vector)
     {
         cout << "Size: " << _vector->get_size() << '\n';
         cout << "Capacity: " << _vector->get_capacity() << '\n';
@@ -93,7 +94,7 @@ public:
 
 int main()
 {
-    Vector vector;
+    MyVector vector;
 
     cout << "=== Initial State ===\n";
     vector.print();
