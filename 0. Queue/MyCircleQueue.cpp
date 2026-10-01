@@ -9,16 +9,29 @@ private:
     element *data;
     int capacity;
     int size;
-    int front;
-    int rear;
+    int front;      // 배열의 인덱스
+    int rear;       // 배열의 인덱스
 
     void resize()
     {
+        int oldCapacity = capacity;
+        capacity *= 2;
 
+        element *newData = new element[capacity];
+        for (int i = 0; i < size; ++i)
+        {
+            newData[i] = data[(front + i) % oldCapacity];
+        }
+
+        delete[] data;
+        data = newData;
+
+        front = 0;
+        rear = size - 1;
     }
     
 public:
-    MyCircleQueue() : data(new element[1]), capacity(1), size(0), front(-1), rear(-1) {}
+    MyCircleQueue() : data(new element[1]), capacity(1), size(0), front(0), rear(0) {}
     ~MyCircleQueue()
     {
         delete[] data;
@@ -34,14 +47,39 @@ public:
 
     void push(element _item) 
     {
+        if (is_full())
+            resize();
 
+        // 데이터 추가
+        if (size == 0)
+        {
+            data[rear] = _item;
+            ++size;
+            return;
+        }
+        
+        // index 이동
+        rear = (rear + 1) % capacity;
+        data[rear] = _item;
+        ++size;
     }
+
     void pop() 
     {
         if (is_empty())
         {
             cout << "Queue is Empty\n";
+            return;
         }
+
+        // 없앨 인덱스 값 초기화
+        data[front] = 0;
+
+        // index 이동
+        front = (front + 1) % capacity;
+
+        // 크기 줄이기
+        --size;
     }
 
     element get_item(int _index)
@@ -65,13 +103,21 @@ public:
     }
 
     void print()
-    {
+    {   
         if (is_empty())
         {
             cout << "Queue is empty\n";
         }
 
+        cout << "[Queue] > ";
         for (int i = 0; i < size; ++i)
+        {
+            cout << data[(front + i) % capacity] << ' ';
+        }
+        cout << '\n';
+
+        cout << "[Debuging Array] > ";
+        for (int i = 0; i < capacity; ++i)
         {
             cout << data[i] << ' ';
         }
@@ -80,16 +126,17 @@ public:
 
     void print_info(MyCircleQueue *_queue)
     {
-        cout << "Size: " << _queue->get_size() << '\n';
-        cout << "Capacity: " << _queue->get_capacity() << '\n';
-        cout << "Front: " << _queue->get_front() << '\n';
-        cout << "Rear: " << _queue->get_back() << '\n';
+        cout << "Size: " << _queue->get_size() << " | ";
+        cout << "Capacity: " << _queue->get_capacity() << " | ";
+        cout << "Front: " << _queue->get_front() << " | ";
+        cout << "Rear: " << _queue->get_back() << " | ";
+        cout << '\n';
     }
 };
 
 int main()
 {
     MyCircleQueue queue;
-    
+
     return 0;
 }
