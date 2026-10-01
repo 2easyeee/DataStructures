@@ -72,7 +72,7 @@ public:
             return;
         }
 
-        // 없앨 인덱스 값 초기화
+        // 삭제할 인덱스 값 초기화
         data[front] = 0;
 
         // index 이동
@@ -80,6 +80,10 @@ public:
 
         // 크기 줄이기
         --size;
+
+        // 큐가 비면 front 와 rear 를 동일한 위치로 설정
+        if (size == 0)
+            front = rear;
     }
 
     element get_item(int _index)
